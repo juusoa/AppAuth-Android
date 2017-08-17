@@ -168,7 +168,12 @@ public class AuthorizationManagementActivity extends Activity {
     }
 
     private static Intent createBaseIntent(Context context) {
-        return new Intent(context, AuthorizationManagementActivity.class);
+        Intent intent =
+            new Intent(context, AuthorizationManagementActivity.class);
+        if (context == context.getApplicationContext()) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        return intent;
     }
 
     @Override
