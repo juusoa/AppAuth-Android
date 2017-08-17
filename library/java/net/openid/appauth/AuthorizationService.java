@@ -303,13 +303,13 @@ public class AuthorizationService {
         }
     }
 
-    private class TokenRequestTask
-            extends AsyncTask<Void, Void, JSONObject> {
+    private class TokenRequestTask {
         private TokenRequest mRequest;
         private TokenResponseCallback mCallback;
         private ClientAuthentication mClientAuthentication;
 
         private AuthorizationException mException;
+
 
         TokenRequestTask(TokenRequest request, @NonNull ClientAuthentication clientAuthentication,
                          TokenResponseCallback callback) {
@@ -318,7 +318,11 @@ public class AuthorizationService {
             mClientAuthentication = clientAuthentication;
         }
 
-        @Override
+        public void execute() {
+            JSONObject object = this.doInBackground(new Void[0]);
+            onPostExecute(object);
+        }
+
         protected JSONObject doInBackground(Void... voids) {
             InputStream is = null;
             try {
@@ -374,7 +378,6 @@ public class AuthorizationService {
             return null;
         }
 
-        @Override
         protected void onPostExecute(JSONObject json) {
             if (mException != null) {
                 mCallback.onTokenRequestCompleted(null, mException);
